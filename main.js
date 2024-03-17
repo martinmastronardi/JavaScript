@@ -2,8 +2,19 @@ let agenda = [];
 
 function agregarContacto() {
     let nombre = prompt("Ingrese el nombre del contacto:");
+    if (nombre === null) {
+        return; 
+    }
     let telefono = prompt("Ingrese el número de teléfono:");
-
+    if (telefono === null) {
+        return; 
+    }
+    
+    if (!nombre || !telefono) {
+        alert("Por favor, complete todos los campos.");
+        return;
+    }
+    
     let contacto = {
         nombre: nombre,
         telefono: telefono
@@ -17,6 +28,7 @@ function agregarContacto() {
         mostrarAgenda();
     }
 }
+
 
 function mostrarAgenda() {
     let verAgenda = confirm("¿Desea ver la agenda?");
