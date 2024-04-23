@@ -18,7 +18,31 @@
         <label id="cantContactos"></label><br>
         <label id="ultimoRegistro"></label>
     </div>
+    <div id="formulario" style="display: none;">
+        <h2>Ingresar un nuevo contacto</h2>
+        <input type="text" id="nombre" placeholder="Nombre">
+        <input type="text" id="telefono" placeholder="Teléfono">
+        <button id="guardarBtn">Guardar</button>
+        <button id="cancelarBtn">Cancelar</button>
+    </div>
+    <div id="editarFormularioDiv" style="display: none;">
+        <h2>Editar contacto</h2>
+        <input type="text" id="editarNombre" placeholder="Nuevo nombre">
+        <input type="text" id="editarTelefono" placeholder="Nuevo teléfono">
+        <button id="guardarEdicionBtn">Guardar</button>
+        <button id="cancelarEdicionBtn">Cancelar</button>
+    </div>
+    <div id="buscarFormularioDiv" style="display: none;">
+        <h2>Buscar contacto</h2>
+        <input type="text" id="buscarNombre" placeholder="Nombre a buscar">
+        <button id="buscarContactoBtn">Buscar</button>
+        <button id="cancelarBusquedaBtn">Cancelar</button>
+        <div id="resultadoBusquedaDiv"></div>
+    </div>
+    
+    
     <div id="agenda"></div>
+
 
     
 

@@ -2,10 +2,26 @@ document.addEventListener("DOMContentLoaded", function() {
     
     const agregarBtn = document.getElementById("agregarBtn");
     const verBtn = document.getElementById("verBtn");
-    const buscarBtn = document.getElementById("buscarBtn");
     const borrarBtn = document.getElementById("borrarBtn");
+    const guardarBtn = document.getElementById("guardarBtn");
+    const cancelarBtn = document.getElementById("cancelarBtn");
+    const buscarBtn = document.getElementById("buscarBtn");
+    const busacrContactobtn = document.getElementById("buscarContactoBtn");
+    const cancelarBusacrContactobtn = document.getElementById("cancelarBusquedaBtn");
     
+    let busquedavisible = false;
     let agendaVisible = false; 
+    let formularioVisible = false;
+    
+buscarBtn.addEventListener("click", function() {
+    if (!busquedavisible) {
+        mostrarBusqueda();
+        busquedavisible = true;
+    } else {
+        ocultarBusqueda();
+        window.location.reload(); 
+    }
+});
 
     verBtn.addEventListener("click", function() {
         if (!agendaVisible) {
@@ -18,12 +34,31 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
     
-    agregarBtn.addEventListener("click", agregarContacto);
-    verBtn.addEventListener("click", mostrarAgenda);
-    buscarBtn.addEventListener("click", buscarContacto);
-    borrarBtn.addEventListener("click", borrarAgenda);
-   
+    agregarBtn.addEventListener("click", function() {
+        if (!formularioVisible) {
+            mostrarFormulario();
+            formularioVisible = true;
+        } else {
+            ocultarFormulario();
+            window.location.reload(); 
+        }
+    });
 
+    guardarBtn.addEventListener("click", agregarContacto);
+    cancelarBtn.addEventListener("click", function() {
+        ocultarFormulario();
+        formularioVisible = false;
+    });
+
+    busacrContactobtn.addEventListener("click", buscarContacto);
+    cancelarBusacrContactobtn.addEventListener("click", function() {
+        ocultarBusqueda();
+        busquedavisible = false;
+    });
+
+    verBtn.addEventListener("click", mostrarAgenda);
+    borrarBtn.addEventListener("click", borrarAgenda);
+    
     agregarBtn.addEventListener("mouseover", cambiarColor);
     agregarBtn.addEventListener("mouseout", restaurarColor);
     verBtn.addEventListener("mouseover", cambiarColor);
@@ -36,6 +71,7 @@ document.addEventListener("DOMContentLoaded", function() {
    
 });
 
+
 function mostrarAgenda() {
     const agendaDiv = document.getElementById("agenda");
     agendaDiv.style.display = "block";
@@ -44,6 +80,26 @@ function mostrarAgenda() {
 function ocultarAgenda() {
     const agendaDiv = document.getElementById("agenda");
     agendaDiv.style.display = "none";
+}
+
+function mostrarFormulario() {
+    const formularioDiv = document.getElementById("formulario");
+    formularioDiv.style.display = "block";
+}
+
+function ocultarFormulario() {
+    const formularioDiv = document.getElementById("formulario");
+    formularioDiv.style.display = "none";
+}
+
+function mostrarBusqueda() {
+    const formularioBusquedaDiv = document.getElementById("buscarFormularioDiv");
+    formularioBusquedaDiv.style.display = "block";
+}
+
+function ocultarBusqueda() {
+    const formularioBusquedaDiv = document.getElementById("buscarFormularioDiv");
+    formularioBusquedaDiv.style.display = "none";
 }
 
 function cambiarColor(event) {
@@ -57,14 +113,11 @@ function restaurarColor(event) {
 let agenda = JSON.parse(localStorage.getItem("agenda")) || [];
 
 function agregarContacto() {
-    let nombre = prompt("Ingrese el nombre del contacto:");
-    if (nombre === null) {
-        return; 
-    }
-    let telefono = prompt("Ingrese el número de teléfono:");
-    if (telefono === null) {
-        return; 
-    } 
+    const nombreInput = document.getElementById("nombre");
+    const telefonoInput = document.getElementById("telefono");
+    
+    const nombre = nombreInput.value.trim();
+    const telefono = telefonoInput.value.trim();
     
     if (!nombre || !telefono) {
         alert("Por favor, complete todos los campos.");
@@ -84,6 +137,7 @@ function agregarContacto() {
     actualizarDetalles();
 }
 
+
 function mostrarAgenda() {
     const agendaDiv = document.getElementById("agenda");
     let agendaHTML = "<h2>Agenda</h2>";
@@ -102,38 +156,60 @@ function editarContacto(event) {
     const index = event.target.getAttribute("data-index");
     const contactoEditar = agenda[index];
     
-    let nombreEditar = prompt("Ingrese el nuevo nombre del contacto:", contactoEditar.nombre);
-    if (nombreEditar === null) {
-        return;
-    }
-    let telefonoEditar = prompt("Ingrese el nuevo número de teléfono:", contactoEditar.telefono);
-    if (telefonoEditar === null) {
-        return;
-    }
-    if (!nombreEditar || !telefonoEditar) {
-        alert("Por favor, complete todos los campos.");
-        return;
-    }
+    const editarFormularioDiv = document.getElementById("editarFormularioDiv");
+    const editarNombreInput = document.getElementById("editarNombre");
+    const editarTelefonoInput = document.getElementById("editarTelefono");
 
-    agenda[index].nombre = nombreEditar;
-    agenda[index].telefono = telefonoEditar;
-    localStorage.setItem("agenda", JSON.stringify(agenda));
-    mostrarAgenda();
+    editarNombreInput.value = contactoEditar.nombre;
+    editarTelefonoInput.value = contactoEditar.telefono;
+
+    editarFormularioDiv.style.display = "block";
+
+    const guardarEdicionBtn = document.getElementById("guardarEdicionBtn");
+    guardarEdicionBtn.addEventListener("click", function() {
+        const nuevoNombre = editarNombreInput.value.trim();
+        const nuevoTelefono = editarTelefonoInput.value.trim();
+
+        if (!nuevoNombre || !nuevoTelefono) {
+            alert("Por favor, complete todos los campos.");
+            return;
+        }
+
+        agenda[index].nombre = nuevoNombre;
+        agenda[index].telefono = nuevoTelefono;
+        localStorage.setItem("agenda", JSON.stringify(agenda));
+
+        editarFormularioDiv.style.display = "none";
+        mostrarAgenda();
+    });
+
+    const cancelarEdicionBtn = document.getElementById("cancelarEdicionBtn");
+    cancelarEdicionBtn.addEventListener("click", function() {
+        editarFormularioDiv.style.display = "none";
+    });
 }
 
 
 function buscarContacto() {
-    let nombreBuscar = prompt("Ingrese el nombre del contacto a buscar:");
-    if (nombreBuscar === null) return;
+    // Obtener el nombre a buscar
+    const nombreBuscar = document.getElementById("buscarNombre").value.trim();
 
-    let contactoEncontrado = agenda.find(contacto => contacto.nombre.toLowerCase() === nombreBuscar.toLowerCase());
+    // Obtener el div de resultados
+    const resultadoBusquedaDiv = document.getElementById("resultadoBusquedaDiv");
+
+    if (!nombreBuscar) {
+        resultadoBusquedaDiv.textContent = "Por favor, ingrese un nombre a buscar.";
+        return;
+    }
+
+    const contactoEncontrado = agenda.find(contacto => contacto.nombre.toLowerCase() === nombreBuscar.toLowerCase());
+
     if (contactoEncontrado) {
-        alert("Nombre: " + contactoEncontrado.nombre + "\nTeléfono: " + contactoEncontrado.telefono);
+        resultadoBusquedaDiv.textContent = `Nombre: ${contactoEncontrado.nombre}, Teléfono: ${contactoEncontrado.telefono}`;
     } else {
-        alert("El contacto no se encuentra en la agenda.");
+        resultadoBusquedaDiv.textContent = "El contacto no se encuentra en la agenda.";
     }
 }
-
 function borrarAgenda() {
     localStorage.removeItem("agenda");
     agenda = [];
