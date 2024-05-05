@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda Telefonica</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+
+<body>
+    <h1 class="titulo">Agenda de contactos</h1>
+<div class="botones">
+    <button class="btnclass" id="agregarBtn">Agregar Contacto</button>
+    <button class="btnclass" id="verBtn">Ver Agenda</button>
+    <button class="btnclass" id="buscarBtn">Buscar Contacto</button>
+    <button class="btnclass" id="borrarBtn">Borrar Agenda</button>
+</div>
+    <div class="detalles" id="detalles">
+        <label class="cantidadContactos" id="cantContactos"></label><br>
+        <label id="ultimoRegistro"></label>
+    </div>
+
+    <div class="form" id="formulario" style="display: none;">
+        <h2>Ingresar un nuevo contacto</h2>
+        <input type="text" id="nombre" placeholder="Nombre">
+        <input type="text" id="telefono" placeholder="Teléfono">
+        <div class="button-container">
+            <button id="guardarBtn">Guardar</button>
+            <button id="cancelarBtn">Cancelar</button>
+        </div>
+    </div>
+
+    <div class="editContacto" id="editarFormularioDiv" style="display: none;">
+        <h2>Editar contacto</h2>
+        <input type="text" id="editarNombre" placeholder="Nuevo nombre">
+        <input type="text" id="editarTelefono" placeholder="Nuevo teléfono">
+        <div class="button-container">
+        <button id="guardarEdicionBtn">Guardar</button>
+        <button id="cancelarEdicionBtn">Cancelar</button>
+    </div>
+    </div>
+    <div class="buscarContacto" id="buscarFormularioDiv" style="display: none;">
+        <h2>Buscar contacto</h2>
+        <input type="text" id="buscarNombre" placeholder="Nombre a buscar">
+       <div class="buscarBtn">
+        <button id="buscarContactoBtn">Buscar</button>
+        <button id="cancelarBusquedaBtn">Cancelar</button>
+        <div class="resultBusqueda" id="resultadoBusquedaDiv"></div>
+    </div>
+    </div>
+    
+    
+    <div class="agenda" id="agenda"></div>
+
+
+    
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="main.js"></script>
+
+
+</html>
